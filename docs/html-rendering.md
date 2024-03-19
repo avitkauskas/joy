@@ -6,7 +6,7 @@ HTML rendering is a little different in joy vs traditional web frameworks. Check
 
 HTML is represented by a large nested array, sounds horrible right? Stay with me, it'll be ok in the end
 
-```clojure
+```janet
 (import joy)
 
 (joy/html
@@ -33,7 +33,7 @@ That's pretty much all there is to it, but we can go further
 
 How do you do loops?!
 
-```clojure
+```janet
 (defn item [{:name name}]
   [:li {:class "list-item"} name])
 
@@ -48,7 +48,7 @@ You have the full power of the janet language at your disposal! There's no separ
 
 Another benefit of having the language represent html is everything gets escaped by default. The only problem is when you *dont* want everything escaped, like inserting a string of markdown for example. There's a way around it: `raw`
 
-```clojure
+```janet
 (import joy :prefix "")
 (import moondown)
 
@@ -64,7 +64,7 @@ Another benefit of having the language represent html is everything gets escaped
 
 How do you get things like re-use and layouts? Functions!
 
-```clojure
+```janet
 (import joy)
 
 (defn home [request]

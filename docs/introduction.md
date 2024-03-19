@@ -11,7 +11,7 @@ Unlike most web frameworks, these four things are not opaque and entirely up to 
 
 ## Functions
 
-```clojure
+```janet
 (use joy)
 
 (defn hello [request]
@@ -24,7 +24,7 @@ This is a just a janet function, it takes a request dictionary and returns a res
 
 ## Routes
 
-```clojure
+```janet
 (defroutes hello-routes
   [:get "/" home]
   [:post "/" sweet-home]
@@ -39,7 +39,7 @@ Those are routes, they take any number of tuples in the form of
 
 Next we have middleware, joy has several middleware for working with web applications, but you can make your own and swap or drop all of the built in middleware if you want.
 
-```clojure
+```janet
 (def hello-handler (-> (handler hello-routes)
                        (logger)))
 ```
@@ -48,7 +48,7 @@ Here's an example using the built in logger, the `handler` function takes an arr
 
 Here's how a logger middleware function could look
 
-```clojure
+```janet
 (defn logger [handler]
   (fn [request]
     (printf "%q" request)
@@ -65,7 +65,7 @@ It's turtles all the way down.
 
 The last part of this is wiring up the middleware and handlers with the actual http server, which works like this:
 
-```clojure
+```janet
 (server hello-handler 8000)
 ```
 
@@ -73,7 +73,7 @@ Which starts up the loop and listens on port 8000 for incoming http requests on 
 
 In the case of multiple handlers, you can combine them before calling `server` with this handy function
 
-```clojure
+```janet
 (def app (handlers hello-handler some-other-handler a-third-handler))
 ```
 
@@ -82,7 +82,7 @@ and the next handler (function + middleware) is called.
 
 From here we would put that in `server`
 
-```clojure
+```janet
 (server app 8000)
 ```
 

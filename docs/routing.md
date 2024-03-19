@@ -12,7 +12,7 @@ I'll go over each one below:
 
 This is `routes`/`defroutes`
 
-```clojure
+```janet
 (defroutes app
   [:get "/" home]
   [:get "/accounts" accounts/index]
@@ -26,7 +26,7 @@ This is `routes`/`defroutes`
 
 or if you don't like not being able to find `defroutes` with ctags:
 
-```clojure
+```janet
 (def app (routes [:get "/" home]
                  [:get "/accounts" accounts/index]
                  [:get "/accounts/new" accounts/new]
@@ -43,7 +43,7 @@ There really is no trade off here except that you have to define functions and t
 
 This is similar to some of the stuff you see in typescript or something where you "decorate" a method in a class. In this case there are no classes so decorating means just calling a function and saving everything in a `dyn`. Same effect since routes typically are not changing after app startup.
 
-```clojure
+```janet
 (route :get "/" :home)
 (defn home [request])
 
@@ -62,7 +62,7 @@ This works pretty well if you want to move quickly and not jump around to differ
 
 This is something near and dear to my heart since it cuts out even defining the route in the first place.
 
-```clojure
+```janet
 (defn / [request])
 
 (defn /accounts [request])
@@ -82,7 +82,7 @@ One last thing I wanted to talk about that doesn't fit into the above is wildcar
 
 ### Wildcard routes
 
-```clojure
+```janet
 (defn everything [request]
   (let [parts (get request :wildcard)]
     @{:status 200 :body (text/plain (string/join parts " "))}))
@@ -111,25 +111,25 @@ If you used either `route`, `routes` or `defroutes` You can reference these rout
 
 `redirect-to` does just what it sounds like, it takes a route name, in this case, the function name like `accounts/index` and you make that a keyword by prepending a colon `:accounts/index` and it returns a redirect [response dictionary](requests-and-responses.md).
 
-```clojure
+```janet
 (redirect-to :accounts/index)
 ```
 
 Will return
 
-```clojure
+```janet
 {:status 200 :body " " :headers {"Location" "/accounts"}}
 ```
 
 Pretty nifty! Here's a more complete example with route params
 
-```clojure
+```janet
 (redirect-to :accounts/show {:id 1})
 ```
 
 will return
 
-```clojure
+```janet
 {:status 200 :body " " :headers {"Location" "/accounts/1"}}
 ```
 
@@ -137,7 +137,7 @@ will return
 
 `form-for` is a little more complex, it takes an array of `request` and a route name and any route parameters and builds a form with an anti csrf-token
 
-```clojure
+```janet
 (let [account {:name "name value"}]
   (form-for [request :accounts/patch {:id 1}]
     (label :name "Name")
@@ -162,7 +162,7 @@ this would output
 
 `form-with` is similar to `form-for` but gives you more control to add arbitrary attributes to your form
 
-```clojure
+```janet
 (let [account {:name "name value"}]
   (form-with request {:method "patch" :action "/accounts/1"}
     (label :name "Name")
@@ -189,7 +189,7 @@ similar to `form-for` but now you can add this like `:enctype`, `:class` or `:id
 
 This has been in here forever but I don't think it's been documented, this is similar to `url-for` but it returns a dictionary that `form-with` can use:
 
-```clojure
+```janet
 (defroutes routes
   [:get "/" home]
   [:get "/accounts" accounts/index]
@@ -214,7 +214,7 @@ A little simpler and more control over attributes, but more verbose.
 
 `url-for` is similar to `redirect-to` but instead of returning a response, it returns a string representing the route
 
-```clojure
+```janet
 (defroutes app
   [:get "/accounts/:id/edit" accounts/edit])
 
@@ -223,6 +223,6 @@ A little simpler and more control over attributes, but more verbose.
 
 would return
 
-```clojure
+```janet
 "accounts/1/edit"
 ```

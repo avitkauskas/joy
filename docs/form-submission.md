@@ -6,7 +6,7 @@ Let's talk about form submission. Usually it wouldn't matter, but since we've be
 
 This is pretty much all you need to have a working form
 
-```clojure
+```janet
 [:form {:method "post" :action "/"}
   [:input {:type "text" :name "username"}]]
 ```
@@ -21,7 +21,7 @@ This outputs
 
 Of course this is vulnerable to CSRF so we should soup it up a little bit
 
-```clojure
+```janet
 (import joy)
 
 (defn new [request]
@@ -34,7 +34,7 @@ Of course this is vulnerable to CSRF so we should soup it up a little bit
 
 At this point you're going to need a `.env` file with a `CSRF_TOKEN_KEY variable` in it or set a `CSRF_TOKEN_KEY` in your os environment:
 
-```clojure
+```janet
 (import cipher)
 
 (os/setenv "CSRF_TOKEN_KEY" (cipher/encryption-key))
@@ -51,7 +51,7 @@ This is looking much better, along with the rest of a few of joy's middleware fu
 
 I waved away some of the complexity that's associated with generating that token, but a more complete example is below:
 
-```clojure
+```janet
 (import joy)
 (import json)
 

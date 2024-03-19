@@ -6,7 +6,7 @@ Database queries in joy are very basic, they go a little something like this:
 
 Joy uses the `.env` file in your project dir (the one with the `project.janet` file in it) or your actual os environment variables and looks for `DATABASE_URL` or in joy `(env :database-url)` for the connection string.
 
-```clojure
+```janet
 (import joy)
 
 (db/connect)
@@ -18,13 +18,13 @@ That's all that you need to connect to the database
 
 Inserting a row
 
-```clojure
+```janet
 (db/insert :account {:name "account 1"})
 ```
 
 Updating a row by id
 
-```clojure
+```janet
 (db/update :account 1 {:name "new name 4"})
 
 ; # or
@@ -37,13 +37,13 @@ Updating a row by id
 
 This could also be
 
-```clojure
+```janet
 (db/update :account {:id 1} {:name "new name 4"})
 ```
 
 Getting a row by id
 
-```clojure
+```janet
 (db/fetch [:account 1])
 
 ;# or
@@ -53,13 +53,13 @@ Getting a row by id
 
 Getting a row by id with a join
 
-```clojure
+```janet
 (db/fetch [:account 1 :todo 2])
 ```
 
 Getting several *scoped* rows (with a join)
 
-```clojure
+```janet
 (def account (db/find :account 1))
 
 (db/fetch-all [:account account :todos])
@@ -71,7 +71,7 @@ Getting several *scoped* rows (with a join)
 
 Deleting a row by id
 
-```clojure
+```janet
 (db/delete :account 1)
 
 ; # or
@@ -82,25 +82,25 @@ Deleting a row by id
 
 Deleting all rows in a table
 
-```clojure
+```janet
 (db/delete-all :account)
 ```
 
 A more generic query
 
-```clojure
+```janet
 (db/from :account :where {:email "email@example.com"} :order "created_at desc" :limit 10)
 ```
 
 Find first row by query
 
-```clojure
+```janet
 (db/find-by :account :where {:email "email@example.com"})
 ```
 
 A few other cool things:
 
-```clojure
+```janet
 (db/from :account
          :join :post
          :where {:email "email@example.com"}
@@ -112,7 +112,7 @@ A few other cool things:
 
 You can also "roll up" a one to many relationship like this:
 
-```clojure
+```janet
 (db/from :account
          :join/many :post
          :where {:email "email@example.com"}
@@ -130,7 +130,7 @@ Notice that the "rolled up" key is the plural name of the joined table.
 
 This works the other way too:
 
-```clojure
+```janet
 (db/from :post
          :join/one :account
          :limit 2)
@@ -150,7 +150,7 @@ Here, the "rolled up" key is the singular name of the joined table (if it happen
 
 This only lets you do an inner join with one table right now, for anything else you'll have to write sql and query it:
 
-```clojure
+```janet
 (db/query (slurp "db/sql/hello.sql")) ; # or whichever way you want
 ```
 

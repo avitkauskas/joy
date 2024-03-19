@@ -17,7 +17,7 @@ Don't forget to migrate!
 
 Open up your janet repl and type this in
 
-```clojure
+```janet
 (import cipher)
 (cipher/password-key)
 ```
@@ -40,7 +40,7 @@ The next step is to set up routes and handlers to let people sign up and one mor
 For this next bit you're going to need another library in your `project.janet` file, [cipher](https://github.com/joy-framework/cipher) for hashing the passwords.
 
 *src/routes/account.janet*
-```clojure
+```janet
 (use joy)
 (import cipher)
 
@@ -91,7 +91,7 @@ Then over in your routes file add those two handlers
 
 *src/routes.janet*
 
-```clojure
+```janet
 (use joy)
 (import ./src/routes/home :as home)
 (import ./src/routes/account :as account)
@@ -106,7 +106,7 @@ Then over in your routes file add those two handlers
 
 In case you didn't catch it before, this is the bit where we hash passwords. It's kind of involved, but it works.
 
-```clojure
+```janet
 (defn hash-password [dict]
   (let [{:password password} dict
         key (env :password-key)
@@ -118,7 +118,7 @@ In case you didn't catch it before, this is the bit where we hash passwords. It'
 
 *src/routes/session.janet*
 
-```clojure
+```janet
 (use joy)
 (import cipher)
 
@@ -166,7 +166,7 @@ In case you didn't catch it before, this is the bit where we hash passwords. It'
 
 Don't forget to wire up those routes:
 
-```clojure
+```janet
 (use joy)
 (import ./src/routes/home :as home)
 (import ./src/routes/account :as account)
@@ -182,7 +182,7 @@ Don't forget to wire up those routes:
 
 ## Signing accounts out
 
-```clojure
+```janet
 (defn destroy [request]
   (-> (redirect-to :home/index)
       (put :session {})))
@@ -193,7 +193,7 @@ One day this will all be a bad dream and you'll be able to stick one line of aut
 Oh, don't forget to update the routes again
 
 
-```clojure
+```janet
 (use joy)
 (import ./src/routes/home :as home)
 (import ./src/routes/account :as account)

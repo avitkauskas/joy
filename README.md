@@ -2,7 +2,7 @@
 
 Joy is a full stack web framework written in [janet](https://github.com/janet-lang/janet)
 
-```clojure
+```janet
 (use joy)
 
 (route :get "/" :home)
@@ -69,7 +69,7 @@ This creates a new empty database named `dev.sqlite3`.
 
 The default template doesn't assume you want a database so you'll need to connect to it in `main.janet`:
 
-```clojure
+```janet
 ; # main.janet
 
 (defn main [& args]

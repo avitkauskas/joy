@@ -2,13 +2,13 @@
 
 When you start a new joy project, the default middleware stack is abstracted away from you with the `app` function
 
-```clojure
+```janet
 (def app (app {:layout layout}))
 ```
 
 If you need more control or you aren't afraid of sharp edges or debugging middleware order issues for a while, here is what the `app` function looks like under the covers:
 
-```clojure
+```janet
 (use joy)
 
 (def app (-> (handler routes)
@@ -32,7 +32,7 @@ If you need more control or you aren't afraid of sharp edges or debugging middle
 
 Here's the simplest example of a middleware function
 
-```clojure
+```janet
 (defn some-middleware [handler]
   (fn [request]
     (handler request)))
@@ -45,7 +45,7 @@ What's the point, right? The point is to create a layer between the route handle
 
 Take a more practical example, logging:
 
-```clojure
+```janet
 (defn logger [handler &opt options]
   (default options {:ignore-keys [:password :confirm-password]})
   (fn [request]

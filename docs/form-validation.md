@@ -4,7 +4,7 @@ Form validation is something that happens on almost any handler that isn't a GET
 
 ## No validation
 
-```clojure
+```janet
 (use joy)
 
 (def sql `create table if not exists todos (id integer primary key, name text not null)`)
@@ -34,7 +34,7 @@ Form validation is something that happens on almost any handler that isn't a GET
 
 This works great, until someone leaves the input blank and then joy throws an error that the column can't be null. You could just do this:
 
-```clojure
+```janet
 (defn todos/create [req]
   (def body (req :body))
 
@@ -46,7 +46,7 @@ This works great, until someone leaves the input blank and then joy throws an er
 
 Not bad! Of course you're going to have to string together quite a few of those whens or put an and in there or something when you have more inputs in a form than just one. Also, what if someone malicious decides to send more than just what's in the form? Then you're going to get "column does not exist" errors. So you'll have to do something like this:
 
-```clojure
+```janet
 (defn todos/create [req]
   (def body (req :body))
 
@@ -62,7 +62,7 @@ Not bad, but it's annoying when you have to repeat `(body :...)` for as many inp
 
 Here's what validation/permitting parameters looks like:
 
-```clojure
+```janet
 (def params
   (params :todos
     (validates [:name] :required true)
@@ -88,7 +88,7 @@ There are a few more options you can pass to the `validates` function:
 
 Here's how you can use it in your handlers:
 
-```clojure
+```janet
 (defn todos/new [req]
   (def {:body body :errors errors} req)
 

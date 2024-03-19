@@ -6,7 +6,7 @@ Everything in joy revolves around request and response maps.
 
 Requests in joy look like this:
 
-```clojure
+```janet
 {:uri "/"
  :method "GET"
  :headers {"Accept" "text/html"}}
@@ -18,21 +18,21 @@ Here's what I mean.
 
 Take a look at this route:
 
-```clojure
+```janet
 (defroutes app
   [:get "/" home])
 ```
 
 Now take a look at this handler
 
-```clojure
+```janet
 (defn home [request]
   {:status 200 :body "home" :headers {"Content-Type" "text/plain"}})
 ```
 
 That `request` argument to that function has the structure from before:
 
-```clojure
+```janet
 (defn home [{:uri uri :method method :headers headers}]
   {:status 200 :body "home" :headers {"Content-Type" "text/plain"}})
 ```
@@ -41,7 +41,7 @@ That `request` argument to that function has the structure from before:
 
 If you were so inclined to destructure it, that's what it looks like. Now take a closer look at that response, they always have this structure:
 
-```clojure
+```janet
 {:status 200
  :body "body"
  :headers {"Content-Type" "application/json"}}

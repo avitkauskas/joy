@@ -6,7 +6,7 @@ Sessions in joy are persisted in an encrypted cookie and set with `SameSite=Stri
 
 In a given handler, how do you add data to the session? Here's how:
 
-```clojure
+```janet
 (use joy)
 
 (defn home-page [request]
@@ -30,7 +30,7 @@ Here we see how to take a url parameter `:name` get it out of the params diction
 
 Another way to see it is this:
 
-```clojure
+```janet
 (defn add-to-session [request]
   (let [name (get-in request [:params :name])]
     {:status 200 :body " " :headers @{"Location" "/"} :session {:name name}}))
@@ -42,7 +42,7 @@ Always good to see the bare data.
 
 Likewise you can remove data from the session similarly:
 
-```clojure
+```janet
 (-> (redirect-to :home-page)
     (put :session {}))
 ```

@@ -16,7 +16,7 @@ First, I want to give a shout out to
 
 Tired of having to define all of your routes in two different files, me too!
 
-```clojure
+```janet
 (route :get "/" :home)
 
 (defn home [r])
@@ -24,7 +24,7 @@ Tired of having to define all of your routes in two different files, me too!
 
 This is how the new template works too:
 
-```clojure
+```janet
 (route :get "/todos" :todos/index)
 (route :get "/todos/new" :todos/new)
 (route :get "/todos/:id" :todos/show)
@@ -40,7 +40,7 @@ You can imagine the corresponding functions.
 
 Before:
 
-```clojure
+```janet
 (def routes (routes [:get "/" :home]))
 
 (def app (as-> (handler routes) ?
@@ -59,7 +59,7 @@ Before:
 
 After:
 
-```clojure
+```janet
 (def routes (routes [:get "/" :home]))
 
 (def app (app {:routes routes :layout layout-fn}))
@@ -67,7 +67,7 @@ After:
 
 You can also turn middleware on/off by changing the dictionary passed to app:
 
-```clojure
+```janet
 (app {:layout false :extra-methods false :session false :x-headers false :static-files false})
 ```
 
@@ -77,7 +77,7 @@ There are a few more options too like changing the cookie options for sessions, 
 
 Don't want to bother writing a whole middleware function just to append things to the request on certain routes? Me neither!
 
-```clojure
+```janet
 (before "/*" :run-before)
 
 (defn run-before [req]
@@ -90,7 +90,7 @@ Similarly, the `after` function works the same way, except on the response, you 
 
 # new starter template
 
-```clojure
+```janet
 .
 ├── Procfile
 ├── main.janet
@@ -121,21 +121,21 @@ Let's hope it never comes to that.
 
 Anyway if you were using those functions change this:
 
-```clojure
+```janet
 (css "/style1.css" "/style2.css")
 ```
 
 to this
-```clojure
+```janet
 (link {:href ["/style1.css" "/style2.css"]})
 ```
 
 and the js is similar:
-```clojure
+```janet
 (js "/js1.js" "/js2.js")
 ```
 to:
-```clojure
+```janet
 (script {:src ["/js1.js" "/js2.js"]})
 ```
 with the added benefit now of adding other attributes, like `:defer`
@@ -145,17 +145,17 @@ with the added benefit now of adding other attributes, like `:defer`
 Again, this doesn't happen often (or at all) but sometimes a new feature
 is just too good to pass up.
 If you are using the app function, it has changed to handlers, so this:
-```clojure
+```janet
 (app (handler routes1) (handler routes2))
 ```
 is now this:
-```clojure
+```janet
 (handlers (handler routes1) (handler routes2))
 ```
 What do you get from this breaking change?
 
 Let me show you something *really* cool:
-```clojure
+```janet
 (use joy)
 
 (defn / [request]
@@ -191,7 +191,7 @@ Bug fixes and improvements
 
 A few bugfixes, notably though, headers are case-insensitive now with a new, handy `headers` function:
 
-```clojure
+```janet
 (header request :x-csrf-token) # or whatever you want
 ```
 
@@ -209,7 +209,7 @@ Notable things in this release:
 - Better logging, where the request is always logged, even if the response isn't
 - Routes can now be dynamically found within the `routes/` folder like so:
 
-```clojure
+```janet
 (use joy)
 
 (defroutes routes
@@ -218,13 +218,13 @@ Notable things in this release:
 
 Assuming you have a file: `src/routes/home.janet` and then within that file, this code:
 
-```clojure
+```janet
 (defn index [request])
 ```
 
 - Array body parsing, so you can have inputs in a form like this:
 
-```clojure
+```janet
 [:input {:type "text" :name "tag[]"}]
 [:input {:type "text" :name "tag[]"}]
 [:input {:type "text" :name "tag[]"}]
@@ -232,7 +232,7 @@ Assuming you have a file: `src/routes/home.janet` and then within that file, thi
 
 and on the server you'll have your body look like this:
 
-```clojure
+```janet
 (defn a-post [request]
   (def body (request :body))
 
@@ -259,7 +259,7 @@ It doesn't seem like a lot, but it is. Here's the gist of it:
 
 Before:
 
-```clojure
+```janet
 (import joy :prefix "")
 
 (defn index [request]
@@ -269,7 +269,7 @@ Before:
 
 Now:
 
-```clojure
+```janet
 (import joy :prefix "")
 (import joy/db)
 
@@ -301,12 +301,12 @@ This change sets joy up for it's own console a la `joy console` from the termina
 
 It went from this
 
-```clojure
+```janet
 (label :field-name)
 ```
 
 to this
-```clojure
+```janet
 (label :field-name "label string")
 ```
  so watch out.
@@ -315,13 +315,13 @@ to this
 
 This:
 
-```clojure
+```janet
 (submit "save" [:class "red"])
 ```
 
 to this:
 
-```clojure
+```janet
 (submit "save" :class "red")
 ```
 
@@ -329,14 +329,14 @@ to this:
 
 Also changed, it's now:
 
-```clojure
+```janet
  (with-db-connection [db "dev.sqlite3"]
     (delete-all db :post :where {:draft true} :limit 1))
 ```
 
 or
 
-```clojure
+```janet
 (delete-all db :post)
 ```
 

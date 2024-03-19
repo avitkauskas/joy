@@ -29,7 +29,7 @@ This creates a new empty database named `dev.sqlite3`. Let's fill it up.
 
 Note, the default template doesn't assume you want a database so you'll need to connect to it in `main.janet`:
 
-```clojure
+```janet
 ; # main.janet
 
 (defn main [& args]
