@@ -2,21 +2,28 @@
 
 
 (defn db/save [arg]
-  (let [set-attrs (-> (table ;(kvs arg))
-                      (put :db/errors nil)
-                      (put :db/table nil))
+  (if (arg :db/errors)
+    arg
+    (let [updated-at ((db/put-updated-at (arg :db/table) @{}) :updated-at)
+          inserted-at updated-at
 
-        insert-attrs (-> (table ;(kvs arg))
-                         (put :db/errors nil))]
+          set-attrs (-> (table ;(kvs arg))
+                        (put :updated-at updated-at)
+                        (put :db/errors nil)
+                        (put :db/table nil))
 
-    (if (arg :db/errors)
-      arg
-      (let [row (db/insert insert-attrs
-                           :on-conflict :id
-                           :do :update
-                           :set set-attrs)
-            row (or row (merge set-attrs arg))]
-         (merge row {:db/saved true})))))
+          insert-attrs (-> (table ;(kvs arg))
+                           (put :inserted-at inserted-at)
+                           (put :updated-at updated-at)
+                           (put :db/errors nil))]
+
+        (let [row (db/insert insert-attrs
+                             :on-conflict :id
+                             :do :update
+                             :set set-attrs)]
+          (if-not row
+            (merge arg {:db/errors "Could not save to the database."})
+            (merge row {:db/saved true}))))))
 
 
 (defn saved? [arg]
