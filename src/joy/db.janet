@@ -5,7 +5,7 @@
   (if (arg :db/errors)
     arg
     (let [updated-at ((db/put-updated-at (arg :db/table) @{}) :updated-at)
-          inserted-at updated-at
+          created-at updated-at
 
           set-attrs (-> (table ;(kvs arg))
                         (put :updated-at updated-at)
@@ -13,7 +13,7 @@
                         (put :db/table nil))
 
           insert-attrs (-> (table ;(kvs arg))
-                           (put :inserted-at inserted-at)
+                           (put :created-at created-at)
                            (put :updated-at updated-at)
                            (put :db/errors nil))]
 
